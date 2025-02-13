@@ -1,4 +1,4 @@
-module arbiter_littletool
+module github.com/fh-x4/littletool
 
 go 1.23.3
 

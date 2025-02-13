@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"arbiter_littletool/component/httpserver"
-	"arbiter_littletool/server/handler/hello"
-
+	"github.com/fh-x4/littletool/component/httpserver"
+	"github.com/fh-x4/littletool/server/handler/hello"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 )

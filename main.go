@@ -1,7 +1,7 @@
 package main
 
 import (
-	"arbiter_littletool/cmd"
+	"github.com/fh-x4/littletool/cmd"
 )
 
 func main() {

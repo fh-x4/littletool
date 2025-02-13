@@ -1,8 +1,9 @@
 package hello
 
 import (
-	"arbiter_littletool/component/httpserver"
 	"context"
+
+	"github.com/fh-x4/littletool/component/httpserver"
 )
 
 type HelloHandler struct {
