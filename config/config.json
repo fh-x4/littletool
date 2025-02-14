@@ -1,4 +1,0 @@
-{
-    "http_serve":":8080",
-    "log":"/var/log/littletool.log"
-}

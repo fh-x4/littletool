@@ -15,16 +15,16 @@ type helloReq struct {
 type helloRsp struct {
 	Hello string `json:"hello"`
 }
-type IE struct {
+type ierror struct {
 	error
 	Code    int
 	Message string
 }
 
-func (i *IE) GetCode() int {
+func (i *ierror) GetCode() int {
 	return i.Code
 }
-func (i *IE) GetMessage() string {
+func (i *ierror) GetMessage() string {
 	return i.Message
 }
 func (h *HelloHandler) GetRequest() interface{} {

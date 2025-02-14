@@ -5,8 +5,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	Version string
+	Date    string
+)
+
 var root = cobra.Command{
-	Use: "小工具",
+	Use: "little_tool",
 	Run: func(cmd *cobra.Command, args []string) {
 		server.RunServer()
 	},
