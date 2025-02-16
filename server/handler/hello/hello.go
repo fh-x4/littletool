@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/fh-x4/littletool/component/httpserver"
+	"github.com/fh-x4/littletool/component/logger"
 )
 
 type HelloHandler struct {
@@ -36,6 +37,7 @@ func (h *HelloHandler) GetRespond() interface{} {
 
 func (h *HelloHandler) Call(ctx context.Context) httpserver.IError {
 	h.rsp.Hello = "hello world"
+	logger.GetLogger().Info("hello world")
 	return nil
 }
 
