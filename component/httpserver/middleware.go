@@ -1,6 +1,7 @@
 package httpserver
 
 import (
+	"bytes"
 	"io"
 	"net/http"
 	"runtime/debug"
@@ -30,6 +31,7 @@ func LoggingRequest() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		request := c.Request
 		body, err := io.ReadAll(request.Body)
+		request.Body = io.NopCloser(bytes.NewReader(body))
 		if err != nil {
 			log.Warningf("read body failed:%v", err)
 			c.Next()
@@ -64,6 +66,6 @@ func LoggingRespond() gin.HandlerFunc {
 			"status_text": http.StatusText(status),
 			"cost":        cost,
 			"body":        "",
-		}).Infof("incomming http request")
+		}).Infof("outgoing http respond")
 	}
 }
