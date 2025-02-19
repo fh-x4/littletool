@@ -3,8 +3,8 @@ package server
 import (
 	"github.com/fh-x4/littletool/component/httpserver"
 	"github.com/fh-x4/littletool/config"
-	"github.com/fh-x4/littletool/server/handler/hash"
-	"github.com/fh-x4/littletool/server/handler/hello"
+	"github.com/fh-x4/littletool/server/handler/mytool/hash"
+	"github.com/fh-x4/littletool/server/handler/mytool/hello"
 	"github.com/gin-gonic/gin"
 )
 
