@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/fh-x4/littletool/component/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,10 +24,12 @@ func CreateHandler(hg IHandlerGen) gin.HandlerFunc {
 		ctx := c.Request.Context()
 		req := h.GetRequest()
 		if err := c.ShouldBind(req); err != nil {
+			logger.GetLogger().Errorf("bind request failed:%v", err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code":    1,
 				"message": "参数异常",
 			})
+			return
 		}
 		if ie := h.Call(ctx); ie != nil {
 			c.JSON(http.StatusOK, gin.H{

@@ -1,0 +1,6 @@
+/vendor
+config/config.json
+
+.vscode
+littletool
+littletool.exe

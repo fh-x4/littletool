@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/fh-x4/littletool/component/httpserver"
+	"github.com/fh-x4/littletool/component/logger"
 )
 
 type HelloHandler struct {
@@ -15,16 +16,16 @@ type helloReq struct {
 type helloRsp struct {
 	Hello string `json:"hello"`
 }
-type IE struct {
+type ierror struct {
 	error
 	Code    int
 	Message string
 }
 
-func (i *IE) GetCode() int {
+func (i *ierror) GetCode() int {
 	return i.Code
 }
-func (i *IE) GetMessage() string {
+func (i *ierror) GetMessage() string {
 	return i.Message
 }
 func (h *HelloHandler) GetRequest() interface{} {
@@ -36,6 +37,7 @@ func (h *HelloHandler) GetRespond() interface{} {
 
 func (h *HelloHandler) Call(ctx context.Context) httpserver.IError {
 	h.rsp.Hello = "hello world"
+	logger.GetLogger().Info("hello world")
 	return nil
 }
 
