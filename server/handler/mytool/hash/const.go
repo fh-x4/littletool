@@ -7,6 +7,7 @@ const (
 	MethodBase64 HashMethod = "base64"
 	MethodSHA256 HashMethod = "sha256"
 	MethodSHA512 HashMethod = "sha512"
+	MethodCrc64  HashMethod = "crc64"
 )
 
 type ErrorCode int

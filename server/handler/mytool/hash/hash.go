@@ -41,19 +41,10 @@ func (h *HashHandler) GetRespond() interface{} {
 }
 
 func (h *HashHandler) Call(ctx context.Context) httpserver.IError {
-	var e *ierror
 	switch h.req.Method {
 	case MethodMd5:
 		sum := md5.New()
-		_, err := sum.Write([]byte(h.req.Source))
-		if err != nil {
-			e = &ierror{
-				error:   err,
-				Code:    int(InternalServerError),
-				Message: "加密失败",
-			}
-			break
-		}
+		_, _ = sum.Write([]byte(h.req.Source))
 		h.rsp.Encrypt = fmt.Sprintf("%X", sum.Sum(nil))
 	case MethodBase64:
 		h.rsp.Encrypt = base64.StdEncoding.EncodeToString([]byte(h.req.Source))
@@ -62,9 +53,6 @@ func (h *HashHandler) Call(ctx context.Context) httpserver.IError {
 		h.rsp.Encrypt = fmt.Sprintf("%X", ha.Sum([]byte(h.req.Source)))
 	}
 
-	if e != nil {
-		return e
-	}
 	return nil
 }
 
