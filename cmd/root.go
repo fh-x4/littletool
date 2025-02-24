@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/fh-x4/littletool/component/logger"
+	"github.com/fh-x4/littletool/component/runner"
 	"github.com/fh-x4/littletool/config"
 	"github.com/fh-x4/littletool/server"
 	"github.com/spf13/cobra"
@@ -29,7 +31,9 @@ var root = cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		server.RunServer()
+		ctx := context.Background()
+		runner.RegisterTask(server.GerRunner())
+		runner.Run(ctx)
 	},
 }
 

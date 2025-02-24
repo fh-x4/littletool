@@ -8,14 +8,11 @@ type cancer struct {
 }
 
 type nabi struct {
+	exskill skill
+
 	strength   int
 	agile      int
-	minPower   int
-	maxPower   int
 	fieldBoost float64
-	// 大招词条
-	dpBoostRate float64
-	hpBoostRate float64
 	// critical
 	criticalRate        int // %
 	criticalDamageBoost int
@@ -25,6 +22,13 @@ type nabi struct {
 	// hit
 	hitNum  int
 	hitRate float64
+}
+
+type skill struct {
+	minPower    int
+	maxPower    int
+	dpBoostRate float64
+	hpBoostRate float64
 }
 
 // func (n *nabi) GetFinalPower(c cancer) int {}
