@@ -30,13 +30,13 @@ type damageCaculateReq struct {
 	Nabi struct {
 		Strength            int     `json:"strength"`
 		Agile               int     `json:"agile"`
-		FieldBoost          float64 `json:"field_boost"`
-		CriticalRate        int     `json:"critical_rate"`
-		CriticalDamageBoost float64 `json:"critical_damage_boost"`
-		AttackBoost         float64 `json:"attack_boost"`
-		MindBoost           float64 `json:"mind_boost"`
-		HitNum              int     `json:"hit_num"`
-		HitRate             float64 `json:"hit_rate"`
+		FieldBoost          float64 `json:"field_boost" default:"1"`
+		CriticalRate        int     `json:"critical_rate" default:"100"`
+		CriticalDamageBoost float64 `json:"critical_damage_boost" default:"1.5"`
+		AttackBoost         float64 `json:"attack_boost" default:"1"`
+		MindBoost           float64 `json:"mind_boost" default:"1"`
+		HitNum              int     `json:"hit_num" default:"0"`
+		HitRate             float64 `json:"hit_rate" default:"0"`
 	} `json:"nabi"`
 	Skill struct {
 		MinPower       int     `json:"min_power"`
@@ -44,8 +44,8 @@ type damageCaculateReq struct {
 		PowerDiff      int     `json:"power_diff"`
 		WeightStrength int     `json:"weight_strength"`
 		WeightAgile    int     `json:"weight_agile"`
-		DpBoostRate    float64 `json:"dp_boost_rate"`
-		HpBoostRate    float64 `json:"hp_boost_rate"`
+		DpBoostRate    float64 `json:"dp_boost_rate" default:"1"`
+		HpBoostRate    float64 `json:"hp_boost_rate" default:"1"`
 		WeaponType     int     `json:"weapon_type"`
 		WeaponElem     int     `json:"weapon_elem"`
 	} `json:"skill"`
@@ -102,6 +102,9 @@ func (h *damageCaculateHandler) Call(ctx context.Context) httpserver.IError {
 			subType:   v.SubTypes,
 			boostRate: v.BoostRate,
 		})
+	}
+	if !enemy.CheckValid() || !friendly.CheckValid() {
+		return nil
 	}
 
 	friendly.CaculateFinalPower(enemy)

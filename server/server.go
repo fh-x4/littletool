@@ -9,6 +9,7 @@ import (
 	"github.com/fh-x4/littletool/component/logger"
 	"github.com/fh-x4/littletool/component/runner"
 	"github.com/fh-x4/littletool/config"
+	"github.com/fh-x4/littletool/server/handler/hbr"
 	"github.com/fh-x4/littletool/server/handler/mytool/aes_ecb"
 	"github.com/fh-x4/littletool/server/handler/mytool/hash"
 	"github.com/fh-x4/littletool/server/handler/mytool/hello"
@@ -54,5 +55,5 @@ func route(e *gin.Engine) {
 	e.POST("/mytool/aes_encrypt", httpserver.CreateHandler(&aes_ecb.AesEncryptGen{}))
 	e.POST("/mytool/aes_decrypt", httpserver.CreateHandler(&aes_ecb.AesDecryptGen{}))
 
-	e.POST("/hbr/damage_caculate", nil)
+	e.POST("/hbr/damage_caculate", httpserver.CreateHandler(&hbr.HandlerGen{}))
 }

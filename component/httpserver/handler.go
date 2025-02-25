@@ -38,6 +38,10 @@ func CreateHandler(hg IHandlerGen) gin.HandlerFunc {
 			})
 			return
 		}
-		c.JSON(http.StatusOK, h.GetRespond())
+		c.JSON(http.StatusOK, gin.H{
+			"code":    0,
+			"message": "",
+			"data":    h.GetRespond(),
+		})
 	}
 }

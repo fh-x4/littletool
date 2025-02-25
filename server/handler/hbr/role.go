@@ -34,6 +34,13 @@ func (c *cancer) CaculateEnemyBoost() float64 {
 	return c.destructionRate * c.defenceDown
 }
 
+func (c *cancer) CheckValid() bool {
+	if c.border == 0 || c.destructionRate == 0 || c.defenceDown == 0 || c.fragile == 0 {
+		return false
+	}
+	return true
+}
+
 type nabi struct {
 	exskill skill
 
@@ -51,18 +58,14 @@ type nabi struct {
 	hitRate float64
 }
 
-type skill struct {
-	minPower       int
-	maxPower       int
-	powerDiff      int
-	weightStrength int
-	weightAgile    int
-
-	finalPower  int
-	dpBoostRate float64
-	hpBoostRate float64
-	weaponType  int
-	weaponElem  int
+func (n *nabi) CheckValid() bool {
+	if !n.exskill.CheckValid() {
+		return false
+	}
+	if n.strength == 0 || n.agile == 0 {
+		return false
+	}
+	return true
 }
 
 func (n *nabi) CaculateFinalPower(c cancer) {
@@ -123,7 +126,10 @@ func (n *nabi) CaculateWeakpointBoost(c cancer) float64 {
 }
 
 func (n *nabi) CaculateFriendlyBoost() float64 {
-	base := n.attackBoost * float64(n.hitNum) * n.hitRate * n.criticalDamageBoost * n.fieldBoost
+	base := n.attackBoost * n.criticalDamageBoost * n.fieldBoost
+	if n.hitNum > 0 {
+		base *= 1 + (float64(n.hitNum) * n.hitRate)
+	}
 	if n.exskill.hpBoostRate != 1 {
 		base *= n.exskill.hpBoostRate
 	} else if n.exskill.dpBoostRate != 1 {
@@ -132,5 +138,26 @@ func (n *nabi) CaculateFriendlyBoost() float64 {
 	return base
 }
 
-// 94363533
-// 261396
+type skill struct {
+	minPower       int
+	maxPower       int
+	powerDiff      int
+	weightStrength int
+	weightAgile    int
+
+	finalPower  int
+	dpBoostRate float64
+	hpBoostRate float64
+	weaponType  int
+	weaponElem  int
+}
+
+func (s *skill) CheckValid() bool {
+	if s.minPower == 0 || s.maxPower == 0 || s.powerDiff == 0 || s.weightStrength == 0 || s.weightAgile == 0 {
+		return false
+	}
+	if s.weaponType == 0 {
+		return false
+	}
+	return true
+}
