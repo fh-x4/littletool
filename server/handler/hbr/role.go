@@ -4,7 +4,8 @@ const typeWeapon = "weapon"
 const typeElem = "element"
 
 const (
-	cut = iota
+	unknown = iota
+	cut
 	stabs
 	blunt
 
@@ -78,16 +79,16 @@ func (n *nabi) CaculateFinalPower(c cancer) {
 
 	if weightBorder > cancerBorder {
 		if weightBorder-cancerBorder >= n.exskill.powerDiff {
-			n.exskill.finalPower = n.exskill.maxPower
+			n.exskill.finalPower = float64(n.exskill.maxPower)
 		} else {
-			n.exskill.finalPower = (n.exskill.maxPower-n.exskill.minPower)*((weightBorder-cancerBorder)/n.exskill.powerDiff) +
-				n.exskill.minPower
+			n.exskill.finalPower = float64(n.exskill.maxPower-n.exskill.minPower)*(float64(weightBorder-cancerBorder)/float64(n.exskill.powerDiff)) +
+				float64(n.exskill.minPower)
 		}
 	} else {
 		if cancerBorder-weightBorder >= n.exskill.powerDiff/2 {
 			n.exskill.finalPower = 1
 		} else {
-			n.exskill.finalPower = n.exskill.minPower * (1 - (cancerBorder-weightBorder)/(n.exskill.powerDiff/2))
+			n.exskill.finalPower = float64(n.exskill.minPower) * (1 - float64(cancerBorder-weightBorder)/float64(n.exskill.powerDiff/2))
 		}
 	}
 }
@@ -145,7 +146,7 @@ type skill struct {
 	weightStrength int
 	weightAgile    int
 
-	finalPower  int
+	finalPower  float64
 	dpBoostRate float64
 	hpBoostRate float64
 	weaponType  int
@@ -156,7 +157,7 @@ func (s *skill) CheckValid() bool {
 	if s.minPower == 0 || s.maxPower == 0 || s.powerDiff == 0 || s.weightStrength == 0 || s.weightAgile == 0 {
 		return false
 	}
-	if s.weaponType == 0 {
+	if s.weaponType == unknown {
 		return false
 	}
 	return true

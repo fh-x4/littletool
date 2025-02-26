@@ -37,7 +37,7 @@ func (s *server) Run(ctx context.Context) {
 		Addr:    conf.HttpServe,
 	}
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			logger.GetLogger().Errorf("http server start failed:%v", err)
 		}
 		logger.GetLogger().Info("http server closed")

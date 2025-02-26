@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/fh-x4/littletool/component/httpserver"
+	"github.com/fh-x4/littletool/component/logger"
 )
 
 type damageCaculateHandler struct {
@@ -104,14 +105,16 @@ func (h *damageCaculateHandler) Call(ctx context.Context) httpserver.IError {
 		})
 	}
 	if !enemy.CheckValid() || !friendly.CheckValid() {
+		logger.GetLogger().Infof("input invalid:%v,%v", enemy.CheckValid(), friendly.CheckValid())
 		return nil
 	}
 
 	friendly.CaculateFinalPower(enemy)
-	h.rsp.Damage = int(float64(friendly.exskill.finalPower) *
-		friendly.CaculateWeakpointBoost(enemy) *
-		friendly.CaculateFriendlyBoost() *
-		enemy.CaculateEnemyBoost())
+	weakpoint := friendly.CaculateWeakpointBoost(enemy)
+	buff := friendly.CaculateFriendlyBoost()
+	debuff := enemy.CaculateEnemyBoost()
+	h.rsp.Damage = int(friendly.exskill.finalPower * weakpoint * buff * debuff)
+	logger.GetLogger().Infof("finalPower=%v,weakpoint=%v,buff=%v,debuff=%v", friendly.exskill.finalPower, weakpoint, buff, debuff)
 
 	return nil
 }
