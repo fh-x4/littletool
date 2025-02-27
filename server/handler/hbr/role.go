@@ -63,7 +63,7 @@ func (n *nabi) CheckValid() bool {
 	if !n.exskill.CheckValid() {
 		return false
 	}
-	if n.strength == 0 || n.agile == 0 {
+	if n.strength == 0 || n.agile == 0 || n.criticalRate < 0 {
 		return false
 	}
 	return true
@@ -73,7 +73,7 @@ func (n *nabi) CaculateFinalPower(c cancer) {
 	weightBorder := (n.exskill.weightStrength*n.strength + n.exskill.weightAgile*n.agile) /
 		(n.exskill.weightStrength + n.exskill.weightAgile)
 	cancerBorder := c.border
-	if n.criticalRate > 100 {
+	if n.criticalRate >= 100 {
 		cancerBorder -= 50
 	}
 
@@ -127,7 +127,13 @@ func (n *nabi) CaculateWeakpointBoost(c cancer) float64 {
 }
 
 func (n *nabi) CaculateFriendlyBoost() float64 {
-	base := n.attackBoost * n.criticalDamageBoost * n.fieldBoost
+	base := n.attackBoost * n.fieldBoost
+	// 以现在的版本来说应该都是必暴击的
+	if n.criticalRate >= 100 {
+		base *= n.criticalDamageBoost
+	} else {
+		base *= (n.criticalDamageBoost-1)*float64(n.criticalRate/100) + 1
+	}
 	if n.hitNum > 0 {
 		base *= 1 + (float64(n.hitNum) * n.hitRate)
 	}
