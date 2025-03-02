@@ -6,8 +6,10 @@ import (
 
 	"github.com/fh-x4/littletool/component/logger"
 	"github.com/fh-x4/littletool/component/runner"
+	ctimer "github.com/fh-x4/littletool/component/timer"
 	"github.com/fh-x4/littletool/config"
 	"github.com/fh-x4/littletool/server"
+	"github.com/fh-x4/littletool/worker/timer"
 	"github.com/spf13/cobra"
 )
 
@@ -33,6 +35,7 @@ var root = cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 		runner.RegisterTask(server.GerRunner())
+		runner.RegisterTask(timer.NewTimer(1, ctimer.NewProducer()))
 		runner.Run(ctx)
 	},
 }

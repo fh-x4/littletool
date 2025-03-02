@@ -56,4 +56,6 @@ func route(e *gin.Engine) {
 	e.POST("/mytool/aes_decrypt", httpserver.CreateHandler(&aes_ecb.AesDecryptGen{}))
 
 	e.POST("/hbr/damage_caculate", httpserver.CreateHandler(&hbr.HandlerGen{}))
+
+	e.POST("/timer/set_timer", nil)
 }
