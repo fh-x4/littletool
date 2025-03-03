@@ -42,6 +42,7 @@ func SetTimer(key string, trigerTime time.Duration, ia IAction) {
 			ch <- te.entity
 		case <-te.controller:
 			logger.GetLogger().Infof("timer task %s cancel,key=%s", te.entity.Type(), te.entity.Key())
+			t.Stop()
 			return
 		}
 	}()
