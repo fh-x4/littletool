@@ -4,17 +4,19 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/spf13/cobra"
+
 	"github.com/fh-x4/littletool/component/logger"
 	"github.com/fh-x4/littletool/component/runner"
 	ctimer "github.com/fh-x4/littletool/component/timer"
 	"github.com/fh-x4/littletool/config"
 	"github.com/fh-x4/littletool/server"
 	"github.com/fh-x4/littletool/worker/timer"
-	"github.com/spf13/cobra"
 )
 
 var (
 	Version string
+	Commit  string
 	Date    string
 )
 
@@ -22,7 +24,7 @@ var configFile string
 
 var root = cobra.Command{
 	Use:     "little_tool",
-	Short:   fmt.Sprintf("arbiter's little tool, build on %s", Date),
+	Short:   fmt.Sprintf("arbiter's little tool, build on %s, commit: %s", Date, Commit),
 	Version: Version,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		if err := config.Init(configFile); err != nil {

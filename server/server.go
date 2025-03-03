@@ -13,6 +13,7 @@ import (
 	"github.com/fh-x4/littletool/server/handler/mytool/aes_ecb"
 	"github.com/fh-x4/littletool/server/handler/mytool/hash"
 	"github.com/fh-x4/littletool/server/handler/mytool/hello"
+	"github.com/fh-x4/littletool/server/handler/timer"
 	"github.com/gin-gonic/gin"
 )
 
@@ -57,5 +58,5 @@ func route(e *gin.Engine) {
 
 	e.POST("/hbr/damage_caculate", httpserver.CreateHandler(&hbr.HandlerGen{}))
 
-	e.POST("/timer/set_timer", nil)
+	e.POST("/timer/set_timer", httpserver.CreateHandler(&timer.SetTimerGen{}))
 }

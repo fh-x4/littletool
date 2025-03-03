@@ -12,9 +12,9 @@ func init() {
 	resty.SetTimeout(5 * time.Second)
 }
 
-func GenHttpCallback(data []byte) (*httpTimer, error) {
+func GenHttpCallback(data string) (*httpTimer, error) {
 	h := &httpTimer{}
-	if err := json.Unmarshal(data, h); err != nil {
+	if err := json.Unmarshal([]byte(data), h); err != nil {
 		return nil, errors.New("data is not available")
 	}
 	return h, nil

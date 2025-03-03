@@ -6,6 +6,7 @@ import (
 
 	"github.com/fh-x4/littletool/component/httpserver"
 	"github.com/fh-x4/littletool/component/timer"
+	"github.com/fh-x4/littletool/server/handler/timer/implement/demo"
 	"github.com/fh-x4/littletool/server/handler/timer/implement/http"
 )
 
@@ -15,7 +16,7 @@ type setTimerHandler struct {
 }
 type setTimerReq struct {
 	CallbackType string `json:"callback_type"`
-	CallbackData []byte `json:"callback_data"`
+	CallbackData string `json:"callback_data"`
 	Delay        int    `json:"delay"`
 }
 type setTimerRsp struct {
@@ -31,6 +32,8 @@ func (h *setTimerHandler) Call(ctx context.Context) httpserver.IError {
 	var t timer.IAction
 	var err error
 	switch h.req.CallbackType {
+	case "demo":
+		t, err = demo.GenDemoCallback(h.req.CallbackData)
 	case "http":
 		t, err = http.GenHttpCallback(h.req.CallbackData)
 	}
