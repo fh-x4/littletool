@@ -2,6 +2,7 @@ package timer
 
 type IAction interface {
 	Key() string
+	Type() string
 	Call() error
 }
 

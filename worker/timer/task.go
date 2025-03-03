@@ -4,6 +4,7 @@ import (
 	"context"
 	"sync"
 
+	"github.com/fh-x4/littletool/component/logger"
 	"github.com/fh-x4/littletool/component/timer"
 )
 
@@ -34,6 +35,7 @@ func (t *task) Run(ctx context.Context) {
 				case <-ctx.Done():
 					return
 				case ac := <-t.c:
+					logger.GetLogger().Infof("timer task %s triggered, key=%s", ac.Type(), ac.Key())
 					ac.Call()
 				}
 			}

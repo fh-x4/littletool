@@ -6,8 +6,7 @@ import (
 
 	"github.com/fh-x4/littletool/component/httpserver"
 	"github.com/fh-x4/littletool/component/timer"
-	"github.com/fh-x4/littletool/server/handler/timer/implement/demo"
-	"github.com/fh-x4/littletool/server/handler/timer/implement/http"
+	"github.com/fh-x4/littletool/server/handler/timer/implement"
 )
 
 type setTimerHandler struct {
@@ -20,6 +19,7 @@ type setTimerReq struct {
 	Delay        int    `json:"delay"`
 }
 type setTimerRsp struct {
+	Key string `json:"key"`
 }
 
 func (h *setTimerHandler) GetRequest() interface{} {
@@ -29,15 +29,15 @@ func (h *setTimerHandler) GetRespond() interface{} {
 	return h.rsp
 }
 func (h *setTimerHandler) Call(ctx context.Context) httpserver.IError {
-	var t timer.IAction
-	var err error
-	switch h.req.CallbackType {
-	case "demo":
-		t, err = demo.GenDemoCallback(h.req.CallbackData)
-	case "http":
-		t, err = http.GenHttpCallback(h.req.CallbackData)
+	fn, support := implement.GetGenerateFunc(h.req.CallbackType)
+	if !support {
+		return &ierror{
+			Code:    MethodTypeNotAvailable,
+			Message: "method not support",
+		}
 	}
 
+	t, err := fn(h.req.CallbackData)
 	if err != nil {
 		return &ierror{
 			error: err,
@@ -45,6 +45,7 @@ func (h *setTimerHandler) Call(ctx context.Context) httpserver.IError {
 		}
 	}
 	timer.SetTimer(t.Key(), time.Duration(h.req.Delay)*time.Second, t)
+	h.rsp.Key = t.Key()
 	return nil
 }
 

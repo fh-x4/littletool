@@ -59,4 +59,5 @@ func route(e *gin.Engine) {
 	e.POST("/hbr/damage_caculate", httpserver.CreateHandler(&hbr.HandlerGen{}))
 
 	e.POST("/timer/set_timer", httpserver.CreateHandler(&timer.SetTimerGen{}))
+	e.POST("/timer/delete_timer", httpserver.CreateHandler(&timer.DeleteTimerGen{}))
 }

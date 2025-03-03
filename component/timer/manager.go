@@ -3,6 +3,8 @@ package timer
 import (
 	"sync"
 	"time"
+
+	"github.com/fh-x4/littletool/component/logger"
 )
 
 type timerEntity struct {
@@ -39,6 +41,7 @@ func SetTimer(key string, trigerTime time.Duration, ia IAction) {
 		case <-t.C:
 			ch <- te.entity
 		case <-te.controller:
+			logger.GetLogger().Infof("timer task %s cancel,key=%s", te.entity.Type(), te.entity.Key())
 			return
 		}
 	}()
