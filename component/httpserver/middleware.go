@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Recover() gin.HandlerFunc {
+func httpRecover() gin.HandlerFunc {
 	log := logger.GetLogger()
 	return func(c *gin.Context) {
 		defer func() {
@@ -25,7 +25,7 @@ func Recover() gin.HandlerFunc {
 	}
 }
 
-func LoggingRequest() gin.HandlerFunc {
+func loggingRequest() gin.HandlerFunc {
 	log := logger.GetLogger()
 	maxLen := config.Get().MaxBodyLen
 	return func(c *gin.Context) {
@@ -50,7 +50,7 @@ func LoggingRequest() gin.HandlerFunc {
 	}
 }
 
-func LoggingRespond() gin.HandlerFunc {
+func loggingRespond() gin.HandlerFunc {
 	log := logger.GetLogger()
 	// maxLen := config.Get().MaxBodyLen
 	return func(c *gin.Context) {
