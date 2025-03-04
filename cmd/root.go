@@ -36,7 +36,7 @@ var root = cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
-		runner.RegisterTask(server.GerRunner())
+		runner.RegisterTask(server.GetRunner())
 		runner.RegisterTask(timer.NewTimer(1, ctimer.NewProducer()))
 		runner.Run(ctx)
 	},

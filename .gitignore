@@ -1,4 +1,5 @@
 /vendor
+/component/timer/*.prof
 config/config.json
 
 .vscode

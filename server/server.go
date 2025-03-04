@@ -19,7 +19,7 @@ import (
 
 type server struct{}
 
-func GerRunner() runner.Task {
+func GetRunner() runner.Task {
 	return &server{}
 }
 

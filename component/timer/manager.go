@@ -43,7 +43,6 @@ func SetTimer(key string, trigerTime time.Duration, ia IAction) {
 		case <-te.controller:
 			logger.GetLogger().Infof("timer task %s cancel,key=%s", te.entity.Type(), te.entity.Key())
 			t.Stop()
-			return
 		}
 	}()
 }
@@ -51,7 +50,9 @@ func SetTimer(key string, trigerTime time.Duration, ia IAction) {
 func DeleteTimer(key string) {
 	tm.Lock()
 	defer tm.Unlock()
-
-	tm.cm[key] <- 1
-	delete(tm.cm, key)
+	if ch, ok := tm.cm[key]; ok {
+		ch <- 1
+		close(ch)
+		delete(tm.cm, key)
+	}
 }
