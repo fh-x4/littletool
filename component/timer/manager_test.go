@@ -1,6 +1,7 @@
 package timer
 
 import (
+	"math/rand"
 	"os"
 	"runtime/pprof"
 	"testing"
@@ -96,8 +97,9 @@ func BenchmarkSetTimer(b *testing.B) {
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
+			delay := 5 + rand.Intn(10)
 			action := &mockAction{key: "testKey", typ: "testType"}
-			SetTimer(action.Key(), 1*time.Second, action)
+			SetTimer(action.Key(), time.Duration(delay)*time.Second, action)
 		}
 	})
 
