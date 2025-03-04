@@ -14,11 +14,11 @@ type IHandler interface {
 	GetRespond() interface{}
 }
 
-type IHandlerGen interface {
+type iHandlerGen interface {
 	GenHandler() IHandler
 }
 
-func CreateHandler(hg IHandlerGen) gin.HandlerFunc {
+func CreateHandler(hg iHandlerGen) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		h := hg.GenHandler()
 		ctx := c.Request.Context()

@@ -5,9 +5,9 @@ import "github.com/gin-gonic/gin"
 func NewServer() *gin.Engine {
 	engine := gin.New()
 	engine.Use(
-		Recover(),
-		LoggingRequest(),
-		LoggingRespond(),
+		httpRecover(),
+		loggingRequest(),
+		loggingRespond(),
 	)
 	return engine
 }

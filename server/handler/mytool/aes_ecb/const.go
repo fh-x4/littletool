@@ -3,5 +3,5 @@ package aes_ecb
 type ErrorCode int
 
 const (
-	InternalServerError ErrorCode = 30001
+	InternalServerError ErrorCode = 10101
 )

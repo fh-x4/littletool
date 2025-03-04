@@ -13,5 +13,5 @@ const (
 type ErrorCode int
 
 const (
-	InternalServerError ErrorCode = 20001
+	InternalServerError ErrorCode = 10201
 )

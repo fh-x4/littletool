@@ -13,12 +13,13 @@ import (
 	"github.com/fh-x4/littletool/server/handler/mytool/aes_ecb"
 	"github.com/fh-x4/littletool/server/handler/mytool/hash"
 	"github.com/fh-x4/littletool/server/handler/mytool/hello"
+	"github.com/fh-x4/littletool/server/handler/timer"
 	"github.com/gin-gonic/gin"
 )
 
 type server struct{}
 
-func GerRunner() runner.Task {
+func GetRunner() runner.Task {
 	return &server{}
 }
 
@@ -56,4 +57,7 @@ func route(e *gin.Engine) {
 	e.POST("/mytool/aes_decrypt", httpserver.CreateHandler(&aes_ecb.AesDecryptGen{}))
 
 	e.POST("/hbr/damage_caculate", httpserver.CreateHandler(&hbr.HandlerGen{}))
+
+	e.POST("/timer/set_timer", httpserver.CreateHandler(&timer.SetTimerGen{}))
+	e.POST("/timer/delete_timer", httpserver.CreateHandler(&timer.DeleteTimerGen{}))
 }
