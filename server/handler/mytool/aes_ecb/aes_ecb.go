@@ -38,14 +38,6 @@ func pkcs5UnPadding(origData []byte) []byte {
 	return origData[:len(origData)-zeroCount]
 }
 
-func encrypt(text, key string) (string, error) {
-	data, err := aesEncrypt(text, key)
-	if err != nil {
-		return "", err
-	}
-	return base64.StdEncoding.EncodeToString(data), nil
-}
-
 func aesEncrypt(src, key string) ([]byte, error) {
 	block, err := aes.NewCipher([]byte(key))
 	if err != nil {
