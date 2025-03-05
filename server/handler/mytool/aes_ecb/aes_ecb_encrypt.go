@@ -2,6 +2,7 @@ package aes_ecb
 
 import (
 	"context"
+	"encoding/base64"
 
 	"github.com/fh-x4/littletool/component/httpserver"
 	"github.com/fh-x4/littletool/component/logger"
@@ -36,7 +37,7 @@ func (h *aesEcbEncryptHandler) Call(ctx context.Context) httpserver.IError {
 			Message: "未知错误",
 		}
 	}
-	h.rsp.Cipher = string(encrypt)
+	h.rsp.Cipher = base64.StdEncoding.EncodeToString(encrypt)
 	return nil
 }
 

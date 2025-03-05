@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 
@@ -34,11 +35,8 @@ func TestSetTimer(t *testing.T) {
 	NewProducer()
 	initLogger()
 	go func() {
-		for {
-			select {
-			case entity := <-ch:
-				entity.Call()
-			}
+		for entity := range ch {
+			entity.Call()
 		}
 	}()
 	action := &mockAction{key: "testKey", typ: "testType"}
@@ -53,11 +51,8 @@ func TestDeleteTimer(t *testing.T) {
 	NewProducer()
 	initLogger()
 	go func() {
-		for {
-			select {
-			case entity := <-ch:
-				entity.Call()
-			}
+		for entity := range ch {
+			entity.Call()
 		}
 	}()
 	action := &mockAction{key: "testKey", typ: "testType"}
@@ -73,11 +68,8 @@ func BenchmarkSetTimer(b *testing.B) {
 	NewProducer()
 	initLogger()
 	go func() {
-		for {
-			select {
-			case entity := <-ch:
-				entity.Call()
-			}
+		for entity := range ch {
+			entity.Call()
 		}
 	}()
 
@@ -98,7 +90,8 @@ func BenchmarkSetTimer(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
 			delay := 5 + rand.Intn(10)
-			action := &mockAction{key: "testKey", typ: "testType"}
+			key := uuid.New().String()
+			action := &mockAction{key: key, typ: "testType"}
 			SetTimer(action.Key(), time.Duration(delay)*time.Second, action)
 		}
 	})

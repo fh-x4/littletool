@@ -2,6 +2,7 @@ package aes_ecb
 
 import (
 	"context"
+	"encoding/base64"
 
 	"github.com/fh-x4/littletool/component/httpserver"
 	"github.com/fh-x4/littletool/component/logger"
@@ -39,7 +40,15 @@ func (h *aesEcbDecryptHandler) GetRespond() interface{} {
 }
 
 func (h *aesEcbDecryptHandler) Call(ctx context.Context) httpserver.IError {
-	decrypted, err := aesDecrypt([]byte(h.req.Cipher), []byte(h.req.Key))
+	crypted, err := base64.StdEncoding.DecodeString(h.req.Cipher)
+	if err != nil {
+		return &ierror{
+			error:   err,
+			Code:    ParamError,
+			Message: "参数错误",
+		}
+	}
+	decrypted, err := aesDecrypt(crypted, []byte(h.req.Key))
 	if err != nil {
 		logger.GetLogger().Errorf("decrypted failed:%v", err)
 		return &ierror{
