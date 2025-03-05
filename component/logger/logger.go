@@ -23,3 +23,7 @@ func Init(path string) error {
 func GetLogger() *logrus.Entry {
 	return logger
 }
+
+func SetLogger(entry *logrus.Entry) {
+	logger = entry
+}
